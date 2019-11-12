@@ -21,7 +21,7 @@ router.post('/register', async (req, res) => {
     });
     try {
         const saveUser = await user.save();
-        res.status(200).send({
+        res.status(201).send({
             "status": true,
             "id": user._id,
             "data": user
@@ -32,16 +32,15 @@ router.post('/register', async (req, res) => {
 });
 
 //LOGIN
-router.post('/login', async (req, res) => {
+router.post('/login', async (req, res, next) => {
+    debugger;
     const { error } = loginValidation(req.body);
     if (error) return res.status(400).send(error.details[0].message);
-
     const user = await User.findOne({ email: req.body.email });
     if (!user) return res.status(400).send('Email is not found !');
     //password is correct
     const validPass = await bcrypt.compare(req.body.password, user.password);
     if (!validPass) return res.status(400).send('Invalid Password')
-
     try {
         const token = jwt.sign({ _id: user._id }, process.env.TOKEN_SECRET);
         res.header('Authorization', token).send({
@@ -51,6 +50,12 @@ router.post('/login', async (req, res) => {
     } catch (error) {
         res.status(400).send(error);
     }
+});
+
+router.get('/list', function (req, res) {
+    User.find({}).then(function (users) {
+        res.send(users);
+    });
 });
 
 module.exports = router;

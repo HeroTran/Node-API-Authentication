@@ -1,0 +1,22 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Post Endpoints returns all users 1`] = `
+Array [
+  Object {
+    "__v": 0,
+    "_id": "5dca6e63e0d47a65009738e0",
+    "date": "2019-11-12T08:33:37.080Z",
+    "email": "herotran1@gmail.com",
+    "name": "herotran210",
+    "password": "$2b$10$Gw8.evQvmn29ta6lCuM7LusHw23qVClUPip7xA3/aCjEIpvzjEh2C",
+  },
+  Object {
+    "__v": 0,
+    "_id": "5dca6f0c540dbf6038f6fa12",
+    "date": "2019-11-12T08:36:25.854Z",
+    "email": "herotran15106@gmail.com",
+    "name": "herotran210",
+    "password": "$2b$10$Vi/VNNeJlCJBWrqp30GkmOca2MkUF.E.f8Ene98JAqx0.yDiv3bfS",
+  },
+]
+`;
