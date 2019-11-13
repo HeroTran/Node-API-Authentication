@@ -6,7 +6,8 @@
   "scripts": {
     "start": "cross-env NODE_ENV=dev nodemon  app.js",
     "debug": "node --inspect app.js",
-    "test": "cross-env NODE_ENV=test jest --coverage --testTimeout=10000"
+    "test": "cross-env NODE_ENV=test jest --coverage --testTimeout=10000",
+    "deploy-dev": "NODE_ENV=dev pm2 start app.js"
   },
   "author": "Hung Tran",
   "license": "ISC",
