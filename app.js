@@ -5,7 +5,7 @@ const mongoose = require('mongoose');
 
 //Import Router
 const authRouter = require('./routes/auth');
-const postRouter = require('./routes/post');
+const postRouter = require('./routes/posts');
 
 dotenv.config();
 //Change evn depend on EVN has set
@@ -27,4 +27,4 @@ app.use('/api/posts', postRouter)
 //export app for test
 module.exports = app;
 
-app.listen(3000, () => console.log('Server up and running !'));
+app.listen(8080, () => console.log('Server up and running !'));

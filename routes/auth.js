@@ -21,7 +21,7 @@ router.post('/register', async (req, res) => {
     });
     try {
         const saveUser = await user.save();
-        res.status(201).send({
+        res.status(200).send({
             "status": true,
             "id": user._id,
             "data": user
@@ -32,17 +32,24 @@ router.post('/register', async (req, res) => {
 });
 
 //LOGIN
-router.post('/login', async (req, res, next) => {
-    debugger;
+router.post('/login', async (req, res) => {
     const { error } = loginValidation(req.body);
     if (error) return res.status(400).send(error.details[0].message);
+
     const user = await User.findOne({ email: req.body.email });
     if (!user) return res.status(400).send('Email is not found !');
     //password is correct
     const validPass = await bcrypt.compare(req.body.password, user.password);
     if (!validPass) return res.status(400).send('Invalid Password')
+
     try {
-        const token = jwt.sign({ _id: user._id }, process.env.TOKEN_SECRET);
+        var signOptions = {
+            algorithm: 'HS256',
+            expiresIn: 30 // token 30second
+        };
+        const token = jwt.sign({ _id: user._id }, process.env.TOKEN_SECRET, signOptions);
+        console.log('token:', token)
+        res.cookie('token', token, { maxAge: 30 * 1000 })
         res.header('Authorization', token).send({
             "status": true,
             "token": token
@@ -50,12 +57,6 @@ router.post('/login', async (req, res, next) => {
     } catch (error) {
         res.status(400).send(error);
     }
-});
-
-router.get('/list', function (req, res) {
-    User.find({}).then(function (users) {
-        res.send(users);
-    });
 });
 
 module.exports = router;

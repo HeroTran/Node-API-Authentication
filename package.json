@@ -24,6 +24,7 @@
   "devDependencies": {
     "custom-env": "1.0.2",
     "jest": "24.9.0",
+    "mongoose-sequence": "5.2.2",
     "supertest": "4.0.2"
   },
   "jest": {
