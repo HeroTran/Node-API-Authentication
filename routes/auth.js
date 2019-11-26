@@ -3,6 +3,7 @@ const User = require('../model/User');
 const { registerValidation, loginValidation } = require('../utils/validation');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const { verifytoken } = require('../utils/verifytoken');
 
 router.post('/register', async (req, res) => {
     const { error } = registerValidation(req.body);
@@ -51,6 +52,8 @@ router.post('/login', async (req, res) => {
         };
         const token = jwt.sign({ _id: user._id }, process.env.TOKEN_SECRET, signOptions);
         console.log('token:', token)
+        user.tokens = user.tokens.concat({ token })
+        await user.save();
         res.cookie('token', token, { maxAge: 10000 * 1000 })
         res.header('Authorization', token).send({
             "isSuccess": true,
@@ -63,5 +66,33 @@ router.post('/login', async (req, res) => {
         });
     }
 });
+
+router.post('/logout', verifytoken, async (req, res) => {
+    try {
+        req.user.tokens = req.user.tokens.filter((token) => {
+            return token.token !== req.token
+        })
+        await req.user.save()
+        res.status(200).send({
+            "isSuccess": true,
+            'token': null
+        })
+    } catch (error) {
+        res.status(500).send()
+    }
+})
+
+router.post('/logoutall', verifytoken, async (req, res) => {
+    try {
+        req.user.tokens = []
+        await req.user.save()
+        res.status(200).send({
+            "isSuccess": true,
+            'token': null
+        })
+    } catch (error) {
+        res.status(500).send()
+    }
+})
 
 module.exports = router;

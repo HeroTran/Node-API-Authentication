@@ -1,14 +1,17 @@
 const jwt = require('jsonwebtoken');
+const User = require('../model/User');
 
-function verifytoken(req, res, next) {
+async function verifytoken(req, res, next) {
     const token = req.header('Authorization');
     if (!token) return res.status(401).send('Access Denied !');
     try {
         const verifytoken = jwt.verify(token, process.env.TOKEN_SECRET);
-        req.user = {
-            'userID':verifytoken
-        };
-        console.log(req.user);
+        const user  = await User.findOne({ _id:verifytoken._id, 'tokens.token': token})
+        if(!user){
+            throw new Error()
+        }
+        req.token = token
+        req.user = user
         next();
     } catch (error) {
         res.status(400).send('Invalid Token');

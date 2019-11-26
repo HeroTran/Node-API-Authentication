@@ -45,7 +45,7 @@ router.get('/:postId', verifytoken, async (req, res) => {
 /**add new post */
 router.post('/', verifytoken, async (req, res) => {
     try {
-        var query = { deleted: 0, _id: req.user.userID._id };
+        var query = { deleted: 0, _id: req.user._id };
         const user = await User.findOne(query);
         if (!user) return res.status(400).send('User not exites !');
         const newPost = new Post({

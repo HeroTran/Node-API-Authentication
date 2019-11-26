@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "cross-env NODE_ENV=dev nodemon  app.js",
+    "start-dev": "cross-env NODE_ENV=dev nodemon  app.js",
+    "start": "cross-env NODE_ENV=local nodemon  app.js",
     "debug": "node --inspect app.js",
     "test": "cross-env NODE_ENV=test jest --coverage --testTimeout=10000",
     "deploy-dev": "pm2 start process.json --env dev"

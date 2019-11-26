@@ -28,5 +28,5 @@ app.use('/api/users', userRouter)
 
 //export app for test
 module.exports = app;
-const post = 8080;
+const post = process.env.PORT;
 app.listen(post, () => console.log('Server up and running !', post));
