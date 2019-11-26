@@ -24,9 +24,16 @@ const userSchema = new mongoose.Schema({
         max: 1024,
         min: 6
     },
-    date: {
+    deleted:{
+        type:Number,
+        default:0
+    },
+    createdAt: {
         type: Date,
         default: Date.now()
+    },
+    createdBy: {
+        type: Number,
     }
 });
 userSchema.plugin(AutoIncrement, {id:'order_user',inc_field: 'userId'});

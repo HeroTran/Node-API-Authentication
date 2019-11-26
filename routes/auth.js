@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const User = require('../model/User');
-const { registerValidation, loginValidation } = require('../helper/validation');
+const { registerValidation, loginValidation } = require('../utils/validation');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
@@ -22,12 +22,14 @@ router.post('/register', async (req, res) => {
     try {
         const saveUser = await user.save();
         res.status(200).send({
-            "status": true,
-            "id": user._id,
+            "isSuccess": true,
             "data": user
         })
     } catch (error) {
-        res.status(400).send(error);
+        res.status(400).send({
+            "isSuccess": false,
+            'error': error
+        });
     }
 });
 
@@ -45,17 +47,20 @@ router.post('/login', async (req, res) => {
     try {
         var signOptions = {
             algorithm: 'HS256',
-            expiresIn: 30 // token 30second
+            expiresIn: 10000 // token 30second
         };
         const token = jwt.sign({ _id: user._id }, process.env.TOKEN_SECRET, signOptions);
         console.log('token:', token)
-        res.cookie('token', token, { maxAge: 30 * 1000 })
+        res.cookie('token', token, { maxAge: 10000 * 1000 })
         res.header('Authorization', token).send({
-            "status": true,
+            "isSuccess": true,
             "token": token
         })
     } catch (error) {
-        res.status(400).send(error);
+        res.status(400).send({
+            "isSuccess": false,
+            'error': error
+        });
     }
 });
 

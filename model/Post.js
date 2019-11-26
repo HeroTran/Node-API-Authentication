@@ -17,12 +17,20 @@ const postSchema = new mongoose.Schema({
         max: 255,
         min: 6
     },
+    deleted:{
+        type:Number,
+        default:0
+    },
     date: {
         type: Date,
         default: Date.now()
     },
-    createBy: {
-        type: String
+    createdAt: {
+        type: Date,
+        default: Date.now()
+    },
+    createdBy: {
+        type: Number,
     }
 });
 postSchema.plugin(AutoIncrement, { id: 'order_post', inc_field: 'postId' });
