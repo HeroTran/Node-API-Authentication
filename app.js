@@ -2,12 +2,13 @@ const express = require('express');
 const app = express();
 const dotenv = require('dotenv');
 const mongoose = require('mongoose');
+const cors = require('cors')
 
 //Import Router
 const authRouter = require('./routes/auth');
 const postRouter = require('./routes/posts');
 const userRouter = require('./routes/users');
-
+app.use(cors())
 dotenv.config();
 //Change evn depend on EVN has set
 const evn = app.get('env');

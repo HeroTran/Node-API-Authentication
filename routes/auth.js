@@ -57,7 +57,8 @@ router.post('/login', async (req, res) => {
         res.cookie('token', token, { maxAge: 10000 * 1000 })
         res.header('Authorization', token).send({
             "isSuccess": true,
-            "token": token
+            "token": token,
+            "data": user
         })
     } catch (error) {
         res.status(400).send({
