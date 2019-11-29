@@ -1,6 +1,7 @@
 const router = require('express').Router();
 const User = require('../model/User');
 const { verifytoken } = require('../utils/verifytoken');
+const jwt = require('jsonwebtoken');
 const { createObjectPagination, createRespondObjectError, createRespondObjectSuccess } = require('../utils/helpers');
 
 /**get all user have pagination */
@@ -75,4 +76,6 @@ router.delete('/:userId', verifytoken, async (req, res) => {
     }
 
 });
+
+
 module.exports = router;

@@ -18,22 +18,31 @@ const userSchema = new mongoose.Schema({
         max: 255,
         min: 6
     },
+    passwordHash: {
+        type: String,
+        max: 1024,
+        min: 6,
+    },
     password: {
         type: String,
-        required: true,
         max: 1024,
-        min: 6
+        min: 6,
+        select: false
     },
     deleted: {
         type: Number,
-        default: 0
+        default: 0,
+        select: false
     },
+    tokenFB: String,
     tokens: [{
         token: {
             type: String,
             required: true
         }
     }],
+    profileId: String,
+    codeLogin: String,
     createdAt: {
         type: Date,
         default: Date.now()

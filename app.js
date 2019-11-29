@@ -3,12 +3,19 @@ const app = express();
 const dotenv = require('dotenv');
 const mongoose = require('mongoose');
 const cors = require('cors')
-
+const passport = require('passport');
 //Import Router
 const authRouter = require('./routes/auth');
 const postRouter = require('./routes/posts');
 const userRouter = require('./routes/users');
-app.use(cors())
+
+
+app.use(passport.initialize());
+app.use(passport.session());
+const corsOptions = {
+    credentials: true,
+};
+app.use(cors(corsOptions));
 dotenv.config();
 //Change evn depend on EVN has set
 const evn = app.get('env');

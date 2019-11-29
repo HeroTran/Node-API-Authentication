@@ -28,3 +28,14 @@ $ npm run start
 - 2.Doc : https://medium.com/@rksmith369/how-to-deploy-mern-stack-app-on-aws-ec2-with-ssl-nginx-the-right-way-e76c1a8cd6c6
 - 3.using pm2 https://devhub.io/repos/Unitech-pm2
 - example code : https://github.com/desaijay315/nodejs_auth/blob/master/src/router/user.js
+
+## All Lib Devdependencies
+
+ - npm i -save-dev cors custom-env jest  supertest dotenv @hapi/joi bcrypt dotenv nodemon
+ - Login FB
+ - npm i -save-dev passport passport-facebook passport-facebook-token
+
+## All Lib dependencies
+
+ - npm i express mongoose mongoose-sequence jsonwebtoken
+ 
