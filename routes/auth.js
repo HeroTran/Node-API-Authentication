@@ -41,7 +41,7 @@ router.post('/register', async (req, res) => {
     });
     try {
         const saveUser = await user.save();
-        return createRespondObjectSuccess(res, user);
+        return createRespondObjectSuccess(res, null);
     } catch (error) {
         return createRespondObjectError(res, error);
     }
@@ -52,10 +52,10 @@ router.post('/login', async (req, res) => {
     const { error } = loginValidation(req.body);
     if (error) return res.status(400).send(error.details[0].message);
 
-    const user = await User.findOne({ email: req.body.email });
+    let user = await User.findOne({ email: req.body.email }).select('+password');
     if (!user) return createRespondObjectError(res, 'Email is not found !');
     //password is correct
-    const validPass = await bcrypt.compare(req.body.password, user.passwordHash);
+    const validPass = await bcrypt.compare(req.body.password, user.password);
     if (!validPass) return createRespondObjectError(res, 'Invalid Password');
 
     try {
@@ -66,6 +66,7 @@ router.post('/login', async (req, res) => {
         const token = jwt.sign({ _id: user._id }, process.env.TOKEN_SECRET, signOptions);
         user.tokens = user.tokens.concat({ token })
         await user.save();
+        user = await User.findOne({ email: req.body.email }).select('-password');
         res.cookie('token', token, { maxAge: 10000 * 1000 })
         res.header('Authorization', token).send({
             "isSuccess": true,
