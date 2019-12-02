@@ -106,7 +106,6 @@ router.post('/findUserByToken', async (req, res) => {
     } catch (e) {
         return res.status(401).send('unauthorized');
     }
-    console.log('dasdasdas');
     User.findOne({ _id: decoded._id }).then(function (user) {
         console.log(user);
         return createRespondObjectSuccess(res, user);
@@ -118,13 +117,17 @@ router.post('/logout', verifytoken, async (req, res) => {
         req.user.tokens = req.user.tokens.filter((token) => {
             return token.token !== req.token
         })
+        console.log(req.user.tokens);
         await req.user.save()
         res.status(200).send({
             "isSuccess": true,
             'token': null
         })
     } catch (error) {
-        res.status(500).send()
+        res.status(400).send({
+            "isSuccess": false,
+            'error': error
+        });
     }
 })
 
@@ -137,7 +140,10 @@ router.post('/logoutall', verifytoken, async (req, res) => {
             'token': null
         })
     } catch (error) {
-        res.status(500).send()
+        res.status(400).send({
+            "isSuccess": false,
+            'error': error
+        });
     }
 })
 

@@ -48,6 +48,9 @@ passport.use(
                         await user.save();
                         done(null, user);
                     } else {
+                        const token = jwt.sign({ _id: user._id }, process.env.TOKEN_SECRET);
+                        user.tokenFB = token;
+                        user.tokens = user.tokens.concat({ token })
                         user.codeLogin = helper.generateRandomCode(8).toUpperCase();
                         await user.save();
                         done(null, user);
