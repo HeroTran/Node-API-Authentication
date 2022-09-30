@@ -13,7 +13,7 @@
   "author": "Hung Tran",
   "license": "ISC",
   "dependencies": {
-    "@hapi/joi": "15.0.3",
+    "@hapi/joi": "15.1.1",
     "bcrypt": "3.0.6",
     "cross-env": "6.0.3",
     "dotenv": "8.2.0",
